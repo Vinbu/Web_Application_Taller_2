@@ -1,6 +1,7 @@
 import typer
 from Crypto.Cipher import AES
 import json
+import os
 
 app = typer.Typer()
 
@@ -14,23 +15,43 @@ def encrypt(message : str, key: str):
     nonce = cipher.nonce
     
     ciphertext, tag = cipher.encrypt_and_digest(message.encode())
-    print(f"key: {key}")
+    
     print(f"Encrypted Message: {ciphertext}")
-    print(f"nonce: {nonce}, tag: {tag}")
     
     data = {
-        'nonce' : nonce.hex(),
-        'ciphertext' : ciphertext.hex(),
-        'tag' : tag.hex()
+        "nonce" : nonce.hex(),
+        "ciphertext" : ciphertext.hex(),
+        "tag" : tag.hex()
     }
     
-    with open('Encrypted_data.json', 'w') as f:
+    with open("Encrypted_data.json", "w") as f:
         json.dump(data, f)
     
     
 @app.command()
 def decrypt(key : str):
-    print("alsdoanfabf")
+    
+    with open("Encrypted_data.json", "r") as f:
+        data = json.load(f)
+    
+    key = key.encode()
+    nonce = bytes.fromhex(data['nonce'])
+    ciphertext = bytes.fromhex(data['ciphertext'])
+    tag = bytes.fromhex(data['tag'])
+    
+    cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)
+    plaintext = cipher.decrypt(ciphertext)
+    
+    try:
+        cipher.verify(tag)
+        print(f"The message is authentic: {plaintext}")
+        
+        if os.path.exists("Encrypted_data.json"):
+            os.remove("Encrypted_data.json")
+        else:
+            print("There was an error with data elimination, please verify 'Encrypted_data.json' archive")
+    except ValueError:
+        print("Key incorrect or message corrupted")
     
 if __name__ == "__main__":
     app()
