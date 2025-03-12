@@ -44,13 +44,14 @@ def decrypt(key : str):
     
     try:
         cipher.verify(tag)
-        print(f"The message is authentic: {plaintext.decode('utf-8')}")
+        decoded_text = plaintext.decode('utf-8')
+        print(f"The message is authentic: {decoded_text}")
         
         if os.path.exists("Encrypted_data.json"):
             os.remove("Encrypted_data.json")
         else:
             print("There was an error with data elimination, please verify 'Encrypted_data.json' archive")
-        return plaintext
+        return decoded_text
     except ValueError:
         print("Key incorrect or message corrupted")
     

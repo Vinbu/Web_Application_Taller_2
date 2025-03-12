@@ -6,10 +6,9 @@ def test_encrypt():
     assert os.path.exists("Encrypted_data.json"), "File not created"
     
 def test_decrypt():
-    encrypt("Test message", "1234567890123456")
-    message = decrypt("1234567890123456")
-    decoded_string = message.decode('utf-8')
-    assert decoded_string == "Test message", "Message not decrypted correctly"
+    encrypt("Test message", "_=-!@# $%^{}|ab0")
+    message = decrypt("_=-!@# $%^{}|ab0")
+    assert message == "Test message", "Message not decrypted correctly"
     
 # Test if the JSON file has keys and values
 def test_json():
