@@ -8,6 +8,9 @@ app = typer.Typer()
 @app.command()
 def encrypt(message : str, key: str):
     
+    if len(key) != 16:
+        raise ValueError("The key must be exactly 16 characters length")
+    
     key = key.encode()
     
     cipher = AES.new(key, AES.MODE_EAX)

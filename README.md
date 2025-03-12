@@ -18,8 +18,7 @@ The software consist of two functions: encrypt and decrypt. Run these scripts in
 ### encrypt
 To use this function you need to enter in your terminal the next command to use it (linux):
 >[!WARNING]
->Your password doesn´t have to be longer than
->16 characters, because of how it works the AES.
+>Your password´s length has to be 16 characters, because of how it works the AES.
 >To check the documentation click this link: [AES](https://pycryptodome.readthedocs.io/en/latest/src/cipher/aes.html)
 ```bash
 python3 main.py encrypt -- "<message>" "<your_password>"
