@@ -1,11 +1,17 @@
 from main import encrypt, decrypt
-import json, os
+import pytest
 
 def test_encrypt():
-    encrypt("Test message", "1234567890123456")
-    assert os.path.exists("Encrypted_data.json"), "File not created"
+    encrypted_message = encrypt("Test message", "1234567890123456")
+    assert encrypted_message == "YRNFocfXi5FBg0oR6TEjtg==", "Message not encrypted correctly"
     
 def test_decrypt():
-    encrypt("Test message", "_=-!@# $%^{}|ab0")
-    message = decrypt("_=-!@# $%^{}|ab0")
+    message = decrypt("YRNFocfXi5FBg0oR6TEjtg==", "1234567890123456")
     assert message == "Test message", "Message not decrypted correctly"
+
+def test_invalid_key_length():
+    message = "Test message"
+    invalid_key = "shortkey"
+    
+    with pytest.raises(ValueError, match="The key must be exactly 16 characters length"):
+        encrypt(message, invalid_key)
