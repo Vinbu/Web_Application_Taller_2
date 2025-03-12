@@ -19,3 +19,6 @@ def test_json():
     assert "ciphertext" in parsed_json and parsed_json["ciphertext"], "Missing or empty ciphertext"
     assert "tag" in parsed_json and parsed_json["tag"], "Missing or empty tag"
     os.remove("Encrypted_data.json")
+
+def test_key_length():
+    assert encrypt("Test message", "tooshort")
