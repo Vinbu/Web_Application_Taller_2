@@ -17,7 +17,7 @@ pip install typer
 pip install pycryptodome
 ```
 ## Scripts
-The software consist of two functions: encrypt and decrypt.
+The software consist of two functions: encrypt and decrypt. Run these scripts inside `src`
 ### encrypt
 To use this function you need to enter in your terminal the next command to use it (linux):
 >[!WARNING]
