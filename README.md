@@ -11,10 +11,7 @@ Encryption and Decryption software, including testing in Python.
 1. Clone the repository
 2. Run the following commands in your terminal
 ```bash
-pip install typer
-```
-```bash
-pip install pycryptodome
+pip install typer pycryptodome pytest
 ```
 ## Scripts
 The software consist of two functions: encrypt and decrypt. Run these scripts inside `src`
