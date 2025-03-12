@@ -1,9 +1,12 @@
 import typer
+from base64 import b64encode, b64decode
 from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
 import json
 import os
 
 app = typer.Typer()
+iv = b'3afMoPuzpXwkdoOO'
 
 @app.command()
 def encrypt(message : str, key: str):
@@ -13,50 +16,37 @@ def encrypt(message : str, key: str):
     
     key = key.encode()
     
-    cipher = AES.new(key, AES.MODE_EAX)
+    message = message.encode()
     
-    nonce = cipher.nonce
+    cipher = AES.new(key, AES.MODE_CBC, iv)
     
-    ciphertext, tag = cipher.encrypt_and_digest(message.encode())
+    ct_bytes = cipher.encrypt(pad(message, AES.block_size))
+    
+    ciphertext = b64encode(ct_bytes).decode('utf-8')
     
     print(f"Encrypted Message: {ciphertext}")
     
-    data = {
-        "nonce" : nonce.hex(),
-        "ciphertext" : ciphertext.hex(),
-        "tag" : tag.hex()
-    }
-    
-    with open("Encrypted_data.json", "w") as f:
-        json.dump(data, f)
-    
     
 @app.command()
-def decrypt(key : str):
-    
-    with open("Encrypted_data.json", "r") as f:
-        data = json.load(f)
-    
-    key = key.encode()
-    nonce = bytes.fromhex(data['nonce'])
-    ciphertext = bytes.fromhex(data['ciphertext'])
-    tag = bytes.fromhex(data['tag'])
-    
-    cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)
-    plaintext = cipher.decrypt(ciphertext)
+def decrypt(encode_message : str, key : str):
     
     try:
-        cipher.verify(tag)
-        decoded_text = plaintext.decode('utf-8')
-        print(f"The message is authentic: {decoded_text}")
+        if len(key) != 16:
+            raise ValueError("The key must be exactly 16 characters length")
         
-        if os.path.exists("Encrypted_data.json"):
-            os.remove("Encrypted_data.json")
-        else:
-            print("There was an error with data elimination, please verify 'Encrypted_data.json' archive")
-        return decoded_text
-    except ValueError:
-        print("Key incorrect or message corrupted")
+        key = key.encode()
+
+        ct = b64decode(encode_message)
+
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+
+        pt = unpad(cipher.decrypt(ct), AES.block_size)
+
+        print("The message was: ", pt.decode('utf-8'))
+
+    except (ValueError, KeyError):
+
+        print("Incorrect decryption")
     
-if __name__ == "__main__":
+if __name__ == "_main_":
     app()
