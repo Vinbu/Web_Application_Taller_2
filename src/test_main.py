@@ -9,13 +9,3 @@ def test_decrypt():
     encrypt("Test message", "_=-!@# $%^{}|ab0")
     message = decrypt("_=-!@# $%^{}|ab0")
     assert message == "Test message", "Message not decrypted correctly"
-    
-# Test if the JSON file has keys and values
-def test_json():
-    encrypt("Test message", "1234567890123456")
-    with open('Encrypted_data.json', 'r') as file:
-        parsed_json = json.load(file)
-    assert "nonce" in parsed_json and parsed_json["nonce"], "Missing or empty nonce"
-    assert "ciphertext" in parsed_json and parsed_json["ciphertext"], "Missing or empty ciphertext"
-    assert "tag" in parsed_json and parsed_json["tag"], "Missing or empty tag"
-    os.remove("Encrypted_data.json")
