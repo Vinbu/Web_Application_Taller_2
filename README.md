@@ -1,6 +1,8 @@
 # Web_Application_Taller_2
+![workflows check](https://github.com/Vinbu/Web_Application_Taller_2/actions/workflows/python_test.yml/badge.svg)
+
 Encryption and Decryption software, including testing in Python.
-https://github.com/Vinbu/Web_Application_Taller_2/actions/workflows/python_test.yml/badge.svg
+
 ## Index
 1. [Installation](#installation)
 2. [Scripts](#scripts)
