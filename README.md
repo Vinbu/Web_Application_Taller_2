@@ -1,5 +1,6 @@
 # Web_Application_Taller_2
 Encryption and Decryption software, including testing in Python.
+https://github.com/OWNER/REPOSITORY/actions/workflows/WORKFLOW-FILE/badge.svg
 ## Index
 1. [Installation](#installation)
 2. [Scripts](#scripts)
