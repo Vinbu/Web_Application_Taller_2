@@ -10,7 +10,7 @@ iv = b'3afMoPuzpXwkdoOO'  # default iv to encrypt and decrypt
 @app.command()
 def encrypt(message: str, key: str) -> str:
     """
-    encrypt function will encrypt the message using the key providedddddddddddddddddddddddddddddddddddddddddddddddddddd
+    encrypt function will encrypt the message using the key provided
     and global iv
 
     Parameters:
